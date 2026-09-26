@@ -1,0 +1,15 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ECOMMERCE_DB_HOST = os.getenv("ECOMMERCE_DB_HOST")
+ECOMMERCE_DB_PORT = os.getenv("ECOMMERCE_DB_PORT")
+ECOMMERCE_DB_NAME = os.getenv("ECOMMERCE_DB_NAME")
+ECOMMERCE_DB_USER = os.getenv("ECOMMERCE_DB_USER")
+ECOMMERCE_DB_PASSWORD = os.getenv("ECOMMERCE_DB_PASSWORD")
+
+MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT")
+MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY")
+MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY")
+MINIO_BUCKET = os.getenv("MINIO_BUCKET")

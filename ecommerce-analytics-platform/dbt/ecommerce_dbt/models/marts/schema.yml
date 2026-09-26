@@ -1,0 +1,38 @@
+#For dim_customers
+version: 2
+
+models:
+
+  - name: dim_customers
+    description: "Customer dimension"
+
+    columns:
+
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - not_null
+          - unique
+
+#For dim_products
+  - name: dim_products
+    description: "Product dimension"
+
+    columns:
+
+      - name: product_id
+        description: "Unique product identifier"
+        tests:
+          - not_null
+          - unique
+
+#For fact_orders
+  - name: fact_orders
+    description: "Order-level fact table"
+
+    columns:
+
+      - name: order_id
+        description: "Order identifier"
+        tests:
+          - not_null

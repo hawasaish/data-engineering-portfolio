@@ -1,0 +1,45 @@
+*.pyc
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+
+# DuckDB
+*.duckdb
+*.duckdb.wal
+
+# Airflow
+airflow/logs/
+airflow/*.db
+
+# dbt
+dbt/ecommerce_dbt/target/
+dbt/ecommerce_dbt/dbt_packages/
+dbt/ecommerce_dbt/logs/
+
+# Superset
+superset/*.db
+
+# Data files
+*.parquet
+*.csv
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Credentials
+*.pem
+*.key
+credentials.json
