@@ -1,4 +1,4 @@
-Project Overview:
+# Project Overview:
 
 This project implements a modern local ELT platform for an e-commerce business using PostgreSQL, MinIO, Apache Airflow, DuckDB, dbt, and Apache Superset.
 
@@ -7,21 +7,20 @@ The platform integrates transactional order data, marketing funnel data, and inc
 The final Superset dashboard provides visibility into revenue trends, customer lifetime value, marketing performance, and pipeline health.
 
 
-Business problem:
+## Business problem:
 
-Transactional data
+```Transactional data
 ↓
 PostgreSQL
-
 Marketing data
 ↓
 CSV files
-
 User/order updates
 ↓
-Daily incremental data
+Daily incremental data```
 
-Problem:
+### Problem:
+
 Data is fragmented
 ↓
 Difficult reporting
@@ -29,9 +28,11 @@ Difficult reporting
 No centralized quality checks
 ↓
 No automated pipeline
+```
 
 
-Tech stack:
+
+## Tech stack:
 
 | Component        | Technology      | Purpose               |
 | ---------------- | --------------- | --------------------- |
@@ -47,35 +48,37 @@ Tech stack:
 | Containerization | Docker          | Local infrastructure  |
 
 
-Data sources:
+## Data sources:
 
-Olist dataset:
+### Olist dataset:
 
-Orders,
-Customers,
-Products,
-Order Items,
-Payments,
-Sellers
+- Orders
+- Customers
+- Products
+- Order Items
+- Payments
+- Sellers
 
-Marketing:
+### Marketing:
 
-CSV,
-utm_source,
-campaign,
-landing_page_clicks,
-coupon_codes_used
+- CSV
+- utm_source
+- campaign
+- landing_page_clicks
+- coupon_codes_used
 
-Daily synthetic data:
+### Daily synthetic data:
 
-Faker,
-100 daily orders
+- Faker
+- 100 daily orders
 
 The synthetic daily data simulates incremental transactional activity so the pipeline can demonstrate daily ingestion and incremental processing without requiring a continuously changing public dataset.
 
-Pipeline workflow:
 
-PostgreSQL
+
+## Pipeline workflow:
+
+```PostgreSQL
 │
 ▼
 Airflow
@@ -105,9 +108,10 @@ Analytics Marts
 │
 ▼
 Superset
+```
 
 
-Data quality:
+## Data quality:
 
 ✓ Primary keys cannot be NULL
 ✓ Dimension keys are unique
@@ -124,7 +128,7 @@ PASS → pipeline continues
 FAIL → Airflow DAG fails
 
 
-Service URLs:
+## Service URLs:
 
 | Service  | URL                     |
 | -------- | ----------------------- |
@@ -133,25 +137,25 @@ Service URLs:
 | Superset | `http://localhost:8088` |
 
 
-Engineering decisions:
+## Engineering decisions:
 
-MinIO
+**MinIO**
 
 Used as a local S3-compatible object store to simulate cloud object storage.
 
-Parquet
+**Parquet**
 
 Used as a columnar storage format because it is efficient for analytical workloads and integrates naturally with DuckDB.
 
-DuckDB
+**DuckDB**
 
 Used as a lightweight analytical engine that can query Parquet efficiently without requiring a large database cluster.
 
-Airflow
+**Airflow**
 
 Used to demonstrate scheduled workflows, dependencies, retries, logging, and pipeline orchestration.
 
-dbt
+**dbt**
 
 Used to separate data transformation and analytics modeling from ingestion logic.
 
