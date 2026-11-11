@@ -1,0 +1,65 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw e-commerce data loaded into DuckDB from MinIO"
+
+    schema: raw
+
+    freshness:
+      warn_after:
+        count: 2
+        period: day
+
+      error_after:
+        count: 3
+        period: day
+
+    tables:
+      - name: orders
+        description: "Raw orders data"
+        loaded_at_field: ingested_at
+
+        columns:
+
+          - name: order_id
+
+            tests:
+              - not_null
+
+      - name: customers
+        description: "Raw customers data"
+
+        columns:
+
+          - name: customer_id
+
+            tests:
+              - not_null
+
+      - name: products
+        description: "Raw products data"
+
+        columns:
+
+          - name: product_id
+
+            tests:
+              - not_null
+
+
+      - name: order_items
+        description: "Raw order items data"
+
+      - name: order_payments
+        description: "Raw order payments data"
+
+        columns:
+
+          - name: order_id
+
+            tests:
+              - not_null
+
+      - name: marketing
+        description: "Raw marketing data"

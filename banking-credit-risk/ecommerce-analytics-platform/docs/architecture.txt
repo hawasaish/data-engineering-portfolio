@@ -1,0 +1,42 @@
+                  ┌────────────────────┐
+                  │    DATA SOURCES    │
+                  └─────────┬──────────┘
+                            │
+             ┌──────────────┼──────────────┐
+             │              │              │
+             ▼              ▼              ▼
+        PostgreSQL      Marketing CSV   Faker
+             │              │              │
+             └──────────────┼──────────────┘
+                            ▼
+                     Apache Airflow
+                            │
+                            ▼
+                    Python Ingestion
+                            │
+                            ▼
+                          MinIO
+                            │
+                            ▼
+                         Parquet
+                            │
+                            ▼
+                         DuckDB
+                            │
+                            ▼
+                           dbt
+                            │
+             ┌──────────────┼──────────────┐
+             ▼              ▼              ▼
+          Staging      Intermediate       Marts
+                                           │
+                              ┌────────────┴──────────┐
+                              ▼                       ▼
+                         dbt Tests             Quality Metrics
+                              │                       │
+                              └───────────┬───────────┘
+                                          ▼
+                                      Superset
+                                          │
+                                          ▼
+                                   Executive Dashboard

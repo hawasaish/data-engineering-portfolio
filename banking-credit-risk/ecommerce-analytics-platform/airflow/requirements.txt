@@ -1,0 +1,9 @@
+pandas
+sqlalchemy
+psycopg2-binary
+boto3
+pyarrow
+duckdb
+dbt-duckdb
+faker
+minio
