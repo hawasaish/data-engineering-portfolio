@@ -1,0 +1,106 @@
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: banking-risk-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: banking
+      POSTGRES_PASSWORD: banking
+      POSTGRES_DB: banking_risk
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - banking_network
+
+  minio:
+    image: minio/minio:latest
+    container_name: banking-risk-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - banking_network
+
+  airflow:
+    image: apache/airflow:3.3.2
+    container_name: banking-risk-airflow
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://banking:banking@postgres:5432/banking_risk
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__API__AUTH_BACKENDS: airflow.api.auth.backend.basic_auth
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./ingestion:/opt/airflow/ingestion
+      - ./spark:/opt/airflow/spark
+      - ./quality:/opt/airflow/quality
+      - ./sql:/opt/airflow/sql
+      - ./data:/opt/airflow/data
+    command: >
+      bash -c "
+      airflow db migrate &&
+      airflow users create
+      --username admin
+      --password admin
+      --firstname Banking
+      --lastname Risk
+      --role Admin
+      --email admin@example.com || true &&
+      airflow api-server --host 0.0.0.0 --port 8080
+      "
+    networks:
+      - banking_network
+
+  superset:
+    build:
+      context: .
+      dockerfile: Dockerfile.superset
+    image: banking-risk-superset:latest
+    container_name: banking-risk-superset
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: banking-risk-secret-key-change-me
+    volumes:
+      - superset_data:/app/superset_home
+    command: >
+      bash -c "
+      superset db upgrade &&
+      superset fab create-admin
+      --username admin
+      --firstname Banking
+      --lastname Risk
+      --email admin@example.com
+      --password admin || true &&
+      superset init &&
+      superset run -h 0.0.0.0 -p 8088
+      "
+    networks:
+      - banking_network
+
+volumes:
+  postgres_data:
+  minio_data:
+  superset_data:
+
+networks:
+  banking_network:
+    driver: bridge
