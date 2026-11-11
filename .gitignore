@@ -1,45 +1,22 @@
-# Python
-__pycache__/
-*.py[cod]
-.pytest_cache/
 .venv/
-venv/
-env/
+__pycache__/
+*.pyc
 
-# IntelliJ
-.idea/
-*.iml
-
-# macOS
-.DS_Store
-
-# Environment / secrets
 .env
-.env.*
-!.env.example
 
-# Logs
+data/raw/*
+data/bronze/*
+data/silver/*
+data/gold/*
+
+!data/raw/.gitkeep
+!data/bronze/.gitkeep
+!data/silver/.gitkeep
+!data/gold/.gitkeep
+
+.pytest_cache/
+.idea/
+.vscode/
+
 *.log
-logs/
-
-# Database files
-*.duckdb
-*.db
-*.sqlite
-*.sqlite3
-
-# Airflow
-airflow/logs/
-airflow/airflow.cfg
-airflow/webserver_config.py
-
-# Project generated files
-target/
-build/
-dist/
-
-# Data files
-data/raw/
-data/processed/
-data/*.csv
-data/*.parquet
+.DS_Store
